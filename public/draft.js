@@ -24,6 +24,9 @@ const championGrid = document.getElementById("championGrid");
 const gragasBanAudio = new Audio("audio/gragas.mp3");
 gragasBanAudio.volume = 0.7;
 
+const blueTimerFill = document.getElementById("blueTimerFill");
+const redTimerFill = document.getElementById("redTimerFill");
+
 let playedGragasBanAudio = false;
 
 let champions = [];
@@ -91,6 +94,7 @@ socket.on("draftState", draft => {
   }
 
   currentDraft = draft;
+  updateSideTimerBars();
   checkGragasBanAudio();
 
   blueTeamName.textContent = draft.blueName;
@@ -262,6 +266,28 @@ function checkGragasBanAudio() {
     gragasBanAudio.play().catch(error => {
       console.log("Audio blocked until user interacts with the page:", error);
     });
+  }
+}
+
+function updateSideTimerBars() {
+  if (!currentDraft) return;
+
+  const step = draftOrder[currentDraft.history.length];
+
+  blueTimerFill.style.height = "0%";
+  redTimerFill.style.height = "0%";
+
+  if (!step || !currentDraft.started) return;
+
+  const percentage = Math.max(
+    0,
+    Math.min(100, (currentDraft.timeLeft / currentDraft.timerSeconds) * 100)
+  );
+
+  if (step.team === "blue") {
+    blueTimerFill.style.height = `${percentage}%`;
+  } else {
+    redTimerFill.style.height = `${percentage}%`;
   }
 }
 
