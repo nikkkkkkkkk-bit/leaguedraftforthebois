@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Draft Room</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1 id="draftTitle">Draft Room</h1>
+    <div id="timerBox" class="timer-box">55</div>
+    <p id="phaseText">Loading...</p>
+    <p id="sideText"></p>
+  </header>
+  <div id="readySection" class="ready-section">
+      <button id="readyBtn" class="ready-btn">READY</button>
+  </div>
+  <main>
+    <section class="teams">
+      <div class="team blue">
+        <h2 id="blueTeamName">Blue Team</h2>
+        <h3>Bans</h3>
+        <div id="blueBans" class="slots"></div>
+        <h3>Picks</h3>
+        <div id="bluePicks" class="slots"></div>
+      </div>
+
+      <div class="team red">
+        <h2 id="redTeamName">Red Team</h2>
+        <h3>Bans</h3>
+        <div id="redBans" class="slots"></div>
+        <h3>Picks</h3>
+        <div id="redPicks" class="slots"></div>
+      </div>
+    </section>
+
+    <section class="controls">
+        <input id="searchInput" placeholder="Search champion..." />
+    </section>
+
+    <section id="championGrid" class="champion-grid"></section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="draft.js"></script>
+</body>
+</html>

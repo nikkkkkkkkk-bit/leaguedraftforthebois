@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Draft</title>
+
+  <!-- THIS IS THE IMPORTANT PART -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="setup-page netflix-panel">
+    <h1>Create Draft</h1>
+    <p class="subtitle">Set up your 5v5 pick and ban lobby.</p>
+
+    <input id="blueName" placeholder="Blue team name" />
+    <input id="redName" placeholder="Red team name" />
+
+    <label>Seconds per pick/ban</label>
+    <input id="timerSeconds" type="number" value="55" min="5" max="300" />
+
+    <button id="createBtn">Create Draft</button>
+
+    <div id="links" class="links hidden">
+      <h2>Draft Links</h2>
+
+      <label>Blue Team Link</label>
+      <input id="blueLink" readonly />
+      <button onclick="copyLink('blueLink')">Copy Blue Link</button>
+
+      <label>Red Team Link</label>
+      <input id="redLink" readonly />
+      <button onclick="copyLink('redLink')">Copy Red Link</button>
+    </div>
+  </main>
+
+  <script src="setup.js"></script>
+</body>
+</html>
