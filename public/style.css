@@ -328,6 +328,41 @@ button:hover {
   font-size: 13px;
   background: #111;
 }
+.side-timer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.side-timer.left {
+  left: 0;
+}
+
+.side-timer.right {
+  right: 0;
+}
+
+.side-timer-fill {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  transition: height 1s linear;
+}
+
+.blue-fill {
+  background: linear-gradient(to top, #2575fc, #4da3ff);
+  box-shadow: 0 0 18px rgba(77, 163, 255, 0.9);
+}
+
+.red-fill {
+  background: linear-gradient(to top, #e50914, #ff4d4d);
+  box-shadow: 0 0 18px rgba(255, 77, 77, 0.9);
+}
 
 /* MOBILE */
 
