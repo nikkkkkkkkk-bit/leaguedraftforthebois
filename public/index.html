@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Draft</title>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -13,25 +12,81 @@
     <h1>Create Draft</h1>
     <p class="subtitle">Set up your 5v5 pick and ban lobby.</p>
 
-    <input id="blueName" placeholder="Blue team name" />
-    <input id="redName" placeholder="Red team name" />
+    <section class="setup-section">
+      <h2>Draft Setup</h2>
 
-    <label>Seconds per pick/ban</label>
-    <input id="timerSeconds" type="number" value="55" min="5" max="300" />
+      <input id="blueName" placeholder="Blue team name" />
+      <input id="redName" placeholder="Red team name" />
 
-    <button id="createBtn">Create Draft</button>
+      <label for="timerSeconds">Seconds per pick/ban</label>
+      <input id="timerSeconds" type="number" value="55" min="5" max="300" />
+
+      <button id="createBtn">Create Draft</button>
+    </section>
 
     <div id="links" class="links hidden">
       <h2>Draft Links</h2>
 
-      <label>Blue Team Link</label>
+      <label for="blueLink">Blue Team Link</label>
       <input id="blueLink" readonly />
       <button onclick="copyLink('blueLink')">Copy Blue Link</button>
 
-      <label>Red Team Link</label>
+      <label for="redLink">Red Team Link</label>
       <input id="redLink" readonly />
       <button onclick="copyLink('redLink')">Copy Red Link</button>
     </div>
+
+    <details class="optional-box">
+      <summary>Optional: Random Team Generator</summary>
+
+      <p class="subtitle">
+        Add players manually or upload a .txt file using: Name, Rank
+      </p>
+
+      <textarea id="playersInput" placeholder="Example:
+Alice, Diamond
+Bob, Gold
+Charlie, Silver"></textarea>
+
+      <input id="playersFile" type="file" accept=".txt" />
+
+      <div class="generator-actions">
+        <div class="generator-card">
+          <div class="generator-option">
+            <input id="captainsByRank" type="checkbox" checked />
+            <label for="captainsByRank">Pick captains by rank</label>
+          </div>
+
+          <button id="pickCaptainsBtn" type="button">Pick Captains Only</button>
+        </div>
+
+        <div id="captainsOnlyBox" class="captains-only hidden">
+          <h3>Selected Captains</h3>
+          <p id="captainsOnlyText"></p>
+        </div>
+
+        <div class="generator-card">
+          <div class="generator-option">
+            <input id="balanceByRank" type="checkbox" checked />
+            <label for="balanceByRank">Balance generated teams by rank</label>
+          </div>
+
+          <button id="generateTeamsBtn" type="button">Generate Random Teams</button>
+        </div>
+      </div>
+
+      <div id="generatedTeams" class="generated-teams hidden">
+        <div>
+          <h3>Blue Team</h3>
+          <ul id="generatedBlueTeam"></ul>
+        </div>
+
+        <div>
+          <h3>Red Team</h3>
+          <ul id="generatedRedTeam"></ul>
+        </div>
+      </div>
+    </details>
   </main>
 
   <script src="setup.js"></script>
