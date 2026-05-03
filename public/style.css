@@ -6,7 +6,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* 🔥 prevents scrollbar flicker */
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
   background:
     radial-gradient(circle at top, rgba(229, 9, 20, 0.25), transparent 35%),
@@ -14,8 +14,6 @@ body {
   color: #ffffff;
   min-height: 100vh;
 }
-
-/* HEADER */
 
 header {
   text-align: center;
@@ -51,8 +49,6 @@ main {
   padding: 24px;
 }
 
-/* SETUP PAGE */
-
 .setup-panel {
   margin-top: 70px;
   background: rgba(0, 0, 0, 0.78);
@@ -68,18 +64,24 @@ main {
   gap: 14px;
 }
 
-/* INPUTS */
-
-input {
+input,
+textarea {
   padding: 15px;
   border-radius: 6px;
   border: 1px solid #333;
   font-size: 16px;
   background: #1f1f1f;
   color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-input:focus {
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
   outline: 2px solid #e50914;
 }
 
@@ -87,8 +89,6 @@ label {
   color: #b3b3b3;
   font-weight: bold;
 }
-
-/* BUTTONS */
 
 button {
   padding: 15px 20px;
@@ -110,11 +110,128 @@ button:hover {
   display: none;
 }
 
+hr {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #333;
+  margin: 18px 0;
+}
+
 .links {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+/* OPTIONAL TEAM GENERATOR */
+
+.optional-box {
+  margin-top: 28px;
+  padding: 18px;
+  border: 1px solid #333;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.optional-box summary {
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 18px;
+  color: #ffffff;
+  list-style-position: outside;
+}
+
+.optional-box[open] {
+  display: block;
+}
+
+.optional-box textarea,
+.optional-box input[type="file"],
+.optional-box button {
+  width: 100%;
+}
+
+.optional-box textarea {
+  margin-top: 12px;
+}
+
+.optional-box input[type="file"] {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #1f1f1f;
+  border: 1px solid #333;
+  color: white;
+}
+
+.generator-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.generator-card {
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #333;
+}
+
+.generator-card button {
+  margin-top: 12px;
+}
+
+.generator-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #181818;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.generator-option input {
+  width: auto;
+}
+
+.generator-option label {
+  width: auto;
+  margin: 0;
+}
+
+.generated-teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 14px;
+}
+
+.generated-teams ul {
+  padding-left: 20px;
+}
+
+.generated-teams li {
+  margin-bottom: 8px;
+}
+
+.captains-only {
+  background: rgba(46, 204, 113, 0.08);
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#captainsOnlyText {
+  color: #2ecc71;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 /* READY BUTTON */
@@ -164,7 +281,7 @@ button:hover {
   box-shadow: 0 0 40px rgba(229, 9, 20, 0.7);
 }
 
-/* PHASE TEXT (FIXED - NO BOUNCE BUG) */
+/* PHASE TEXT */
 
 .phase {
   font-size: 28px;
@@ -184,7 +301,6 @@ button:hover {
   text-shadow: 0 0 12px rgba(255, 77, 77, 0.8);
 }
 
-/* 🔥 FIXED animation (no transform scaling) */
 .phase.your-turn {
   font-size: 34px;
   animation: glowPulse 1s infinite;
@@ -196,9 +312,11 @@ button:hover {
   0% {
     text-shadow: 0 0 10px currentColor;
   }
+
   50% {
     text-shadow: 0 0 24px currentColor;
   }
+
   100% {
     text-shadow: 0 0 10px currentColor;
   }
@@ -233,11 +351,10 @@ button:hover {
   border: 2px solid #e50914;
 }
 
-/* ACTIVE TEAM HIGHLIGHT */
-
 .active-team {
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2),
-              0 0 60px rgba(229, 9, 20, 0.3);
+  box-shadow:
+    0 0 25px rgba(255, 255, 255, 0.2),
+    0 0 60px rgba(229, 9, 20, 0.3);
   transform: scale(1.02);
 }
 
@@ -328,6 +445,9 @@ button:hover {
   font-size: 13px;
   background: #111;
 }
+
+/* SIDE TIMER BARS */
+
 .side-timer {
   position: fixed;
   top: 0;
@@ -375,7 +495,15 @@ button:hover {
     flex-direction: column;
   }
 
+  .generated-teams {
+    grid-template-columns: 1fr;
+  }
+
   h1 {
     font-size: 32px;
+  }
+
+  .setup-panel {
+    margin-top: 24px;
   }
 }
