@@ -15,23 +15,26 @@
     <section class="setup-section">
       <h2>Draft Setup</h2>
 
-      <input id="blueName" placeholder="Blue team name" />
-      <input id="redName" placeholder="Red team name" />
+      <div class="form-row">
+        <input id="blueName" placeholder="Blue team name" />
+        <input id="redName" placeholder="Red team name" />
+      </div>
 
-      <label for="timerSeconds">Seconds per pick/ban</label>
-      <input id="timerSeconds" type="number" value="55" min="5" max="300" />
-
-      <button id="createBtn">Create Draft</button>
+      <div class="form-row timer-row">
+        <span class="timer-label">Seconds per pick/ban</span>
+        <input id="timerSeconds" type="number" value="55" min="5" max="300" />
+        <button id="createBtn">Create Draft</button>
+      </div>
     </section>
 
     <div id="links" class="links hidden">
       <h2>Draft Links</h2>
 
-      <label for="blueLink">Blue Team Link</label>
+      <label>Blue Team Link</label>
       <input id="blueLink" readonly />
       <button onclick="copyLink('blueLink')">Copy Blue Link</button>
 
-      <label for="redLink">Red Team Link</label>
+      <label>Red Team Link</label>
       <input id="redLink" readonly />
       <button onclick="copyLink('redLink')">Copy Red Link</button>
     </div>
