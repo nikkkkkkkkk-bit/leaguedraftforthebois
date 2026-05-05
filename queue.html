@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Queue Lobby</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="setup-page setup-panel">
+    <h1>Queue Lobby</h1>
+    <p class="subtitle">Share this code with the other players.</p>
+
+    <div class="queue-code-box">
+      <span>Queue Code</span>
+      <strong id="queueCodeText">-----</strong>
+      <button id="copyQueueCodeBtn">Copy Code</button>
+    </div>
+
+    <section id="acceptBox" class="accept-box hidden">
+      <h2>Match Found</h2>
+      <p>Accept to enter captain selection.</p>
+      <button id="acceptBtn">Accept</button>
+    </section>
+
+    <section id="captainBox" class="captain-box hidden">
+      <h2 id="turnText">Captain Draft</h2>
+
+      <div class="teams-preview">
+        <div>
+          <h3>Blue Team</h3>
+          <ul id="blueTeamList"></ul>
+        </div>
+
+        <div>
+          <h3>Red Team</h3>
+          <ul id="redTeamList"></ul>
+        </div>
+      </div>
+
+      <h3>Available Players</h3>
+      <div id="playerPool" class="player-pool"></div>
+    </section>
+
+    <section class="queue-status">
+      <h2 id="queueCountText">Players: 0 / 10</h2>
+      <div class="queue-progress">
+        <div id="queueProgressFill"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Players</h2>
+      <ul id="playersList" class="players-list"></ul>
+    </section>
+
+    <p id="queueMessage" class="subtitle">Waiting for players to join...</p>
+
+    <a class="back-link" href="/">Back to home</a>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="queue.js"></script>
+</body>
+</html>
