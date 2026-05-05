@@ -27,6 +27,53 @@ gragasBanAudio.volume = 0.7;
 const blueTimerFill = document.getElementById("blueTimerFill");
 const redTimerFill = document.getElementById("redTimerFill");
 
+const roleButtons = document.querySelectorAll(".role-btn");
+let activeRole = "all";
+
+const roleMap = {
+  top: [
+    "Aatrox", "Camille", "Chogath", "Darius", "DrMundo", "Fiora", "Gangplank",
+    "Garen", "Gnar", "Gwen", "Illaoi", "Irelia", "Jax", "Jayce", "Kennen",
+    "Kled", "KSante", "Malphite", "Mordekaiser", "Nasus", "Olaf", "Ornn",
+    "Pantheon", "Poppy", "Quinn", "Renekton", "Riven", "Rumble", "Sett",
+    "Shen", "Singed", "Sion", "TahmKench", "Teemo", "Tryndamere", "Urgot",
+    "Volibear", "Yone", "Yorick"
+  ],
+
+  jungle: [
+    "Amumu", "Belveth", "Briar", "Diana", "Ekko", "Elise", "Evelynn", "FiddleSticks",
+    "Gragas", "Graves", "Hecarim", "Ivern", "JarvanIV", "Karthus", "Kayn",
+    "Khazix", "Kindred", "LeeSin", "Lillia", "Maokai", "MasterYi", "MonkeyKing",
+    "Morgana", "Nidalee", "Nocturne", "Nunu", "Poppy", "Rammus", "RekSai",
+    "Rengar", "Sejuani", "Shaco", "Shyvana", "Skarner", "Taliyah", "Trundle",
+    "Udyr", "Viego", "Vi", "Volibear", "Warwick", "XinZhao", "Zac"
+  ],
+
+  mid: [
+    "Ahri", "Akali", "Akshan", "Anivia", "Annie", "AurelionSol", "Azir",
+    "Brand", "Cassiopeia", "Corki", "Diana", "Ekko", "Fizz", "Galio",
+    "Hwei", "Kassadin", "Katarina", "LeBlanc", "Lissandra", "Lux", "Malzahar",
+    "Naafiri", "Neeko", "Orianna", "Qiyana", "Ryze", "Swain", "Sylas",
+    "Syndra", "Taliyah", "Talon", "TwistedFate", "Veigar", "Vex", "Viktor",
+    "Vladimir", "Xerath", "Yasuo", "Yone", "Zed", "Ziggs", "Zoe"
+  ],
+
+  adc: [
+    "Aphelios", "Ashe", "Caitlyn", "Draven", "Ezreal", "Jhin", "Jinx",
+    "Kaisa", "Kalista", "KogMaw", "Lucian", "MissFortune", "Nilah", "Samira",
+    "Sivir", "Smolder", "Tristana", "Twitch", "Varus", "Vayne", "Xayah",
+    "Zeri", "Ziggs"
+  ],
+
+  support: [
+    "Alistar", "Bard", "Blitzcrank", "Brand", "Braum", "Janna", "Karma",
+    "Leona", "Lulu", "Lux", "Maokai", "Milio", "Morgana", "Nami", "Nautilus",
+    "Neeko", "Poppy", "Pyke", "Rakan", "Rell", "Renata", "Senna", "Seraphine",
+    "Sona", "Soraka", "Swain", "TahmKench", "Taric", "Thresh", "Velkoz",
+    "Xerath", "Yuumi", "Zilean", "Zyra"
+  ]
+};
+
 let playedGragasBanAudio = false;
 
 let champions = [];
@@ -172,8 +219,16 @@ function renderChampions() {
   championGrid.innerHTML = "";
 
   champions
-    .filter(champ => champ.name.toLowerCase().includes(searchTerm))
-    .forEach(champ => {
+    .filter(champ => {
+      const matchesSearch = champ.name.toLowerCase().includes(searchTerm);
+
+      const matchesRole =
+        activeRole === "all" ||
+        roleMap[activeRole]?.includes(champ.id);
+
+      return matchesSearch && matchesRole;
+    })
+  .forEach(champ => {
       const card = document.createElement("div");
       card.className = "champion";
 
@@ -290,6 +345,19 @@ function updateSideTimerBars() {
     redTimerFill.style.height = `${percentage}%`;
   }
 }
+
+roleButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    activeRole = button.dataset.role;
+
+    searchInput.value = "";
+
+    roleButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    renderChampions();
+  });
+});
 
 searchInput.addEventListener("input", renderChampions);
 
