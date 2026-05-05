@@ -62,22 +62,33 @@ function shuffleArray(array) {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
-app.post("/api/create-draft", (req, res) => {
-  const { blueName, redName, timerSeconds } = req.body;
-  const seconds = Number(timerSeconds) || 55;
+function createChampionDraft(blueName, redName, timerSeconds = 55) {
   const id = Math.random().toString(36).substring(2, 10);
 
   drafts[id] = {
     id,
     blueName: blueName || "Blue Team",
     redName: redName || "Red Team",
-    timerSeconds: seconds,
-    timeLeft: seconds,
+    timerSeconds,
+    timeLeft: timerSeconds,
     history: [],
     selected: [],
     ready: { blue: false, red: false },
     started: false
   };
+
+  return id;
+}
+
+app.post("/api/create-draft", (req, res) => {
+  const { blueName, redName, timerSeconds } = req.body;
+  const seconds = Number(timerSeconds) || 55;
+
+  const id = createChampionDraft(
+    blueName || "Blue Team",
+    redName || "Red Team",
+    seconds
+  );
 
   res.json({ id });
 });
@@ -156,23 +167,14 @@ function startCaptainDraft(code) {
 
   queue.status = "captain";
 
-  const realPlayers = queue.players.filter(
-    player => !String(player.id).startsWith("BOT_")
-  );
-
-  const captainPool = realPlayers.length >= 2
-    ? realPlayers
-    : queue.players;
-
-  const shuffledCaptains = shuffleArray(captainPool);
-
-  const blueCaptain = shuffledCaptains[0];
-  const redCaptain = shuffledCaptains[1];
+  const shuffledPlayers = shuffleArray(queue.players);
+  const blueCaptain = shuffledPlayers[0];
+  const redCaptain = shuffledPlayers[1];
 
   queue.blueTeam = [blueCaptain];
   queue.redTeam = [redCaptain];
 
-  queue.players = queue.players.filter(
+  queue.players = shuffledPlayers.filter(
     player => player.id !== blueCaptain.id && player.id !== redCaptain.id
   );
 
@@ -188,6 +190,26 @@ function startCaptainDraft(code) {
     redCaptain.id,
     blueCaptain.id
   ];
+
+  io.to(code).emit("queueState", queue);
+}
+
+function finishCaptainDraft(code) {
+  const queue = queues[code];
+  if (!queue) return;
+
+  queue.status = "done";
+
+  const blueCaptain = queue.blueTeam[0];
+  const redCaptain = queue.redTeam[0];
+
+  const draftId = createChampionDraft(
+    `${blueCaptain.name}'s Team`,
+    `${redCaptain.name}'s Team`,
+    55
+  );
+
+  queue.draftId = draftId;
 
   io.to(code).emit("queueState", queue);
 }
@@ -218,7 +240,8 @@ io.on("connection", socket => {
       blueTeam: [],
       redTeam: [],
       pickOrder: [],
-      pickIndex: 0
+      pickIndex: 0,
+      draftId: null
     };
 
     socket.join(code);
@@ -326,7 +349,7 @@ io.on("connection", socket => {
 
     const allAccepted =
       queue.players.length === 10 &&
-      queue.players.every(player => player.accepted || String(player.id).startsWith("BOT_"));
+      queue.players.every(player => player.accepted);
 
     if (allAccepted) {
       clearTimeout(acceptTimers[cleanCode]);
@@ -362,7 +385,8 @@ io.on("connection", socket => {
     queue.pickIndex++;
 
     if (queue.pickIndex >= queue.pickOrder.length) {
-      queue.status = "done";
+      finishCaptainDraft(cleanCode);
+      return;
     }
 
     io.to(cleanCode).emit("queueState", queue);
@@ -413,11 +437,12 @@ io.on("connection", socket => {
 
     startTimer(draftId);
   });
-
 });
 
 const PORT = process.env.PORT || 3000;
 
-server.listen(PORT, () => {
+  server.listen(PORT, () => {
   console.log(`Draft app running on port ${PORT}`);
 });
+
+
