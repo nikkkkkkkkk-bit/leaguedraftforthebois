@@ -700,3 +700,46 @@ hr {
     grid-template-columns: 1fr;
   }
 }
+
+.role-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0 0;
+}
+
+.role-btn {
+  background: #181818;
+  border: 1px solid #333;
+  color: white;
+  padding: 12px 16px;
+}
+
+.role-btn:hover {
+  border-color: #e50914;
+}
+
+.role-btn.active {
+  background: #e50914;
+  border-color: #e50914;
+}
+
+.draft-links-box {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.45);
+}
+
+.draft-link {
+  display: block;
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 8px;
+  text-align: center;
+  background: #2ecc71;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
