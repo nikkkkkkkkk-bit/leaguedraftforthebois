@@ -3,95 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Draft</title>
+  <title>Draft Queue</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <main class="setup-page setup-panel">
-    <h1>Create Draft</h1>
-    <p class="subtitle">Set up your 5v5 pick and ban lobby.</p>
+    <h1>Draft Queue</h1>
+    <p class="subtitle">Create or join a 10-player queue.</p>
 
     <section class="setup-section">
-      <h2>Draft Setup</h2>
+      <h2>Enter Your Name</h2>
 
-      <div class="form-row">
-        <input id="blueName" placeholder="Blue team name" />
-        <input id="redName" placeholder="Red team name" />
+      <input id="playerName" maxlength="20" placeholder="Letters and numbers only" />
+
+      <div class="queue-actions">
+        <button id="createQueueBtn">Create Queue</button>
+
+        <div class="join-row">
+          <input id="queueCodeInput" maxlength="5" placeholder="Queue code" />
+          <button id="joinQueueBtn">Join Queue</button>
+        </div>
       </div>
 
-      <div class="form-row timer-row">
-        <span class="timer-label">Seconds per pick/ban</span>
-        <input id="timerSeconds" type="number" value="55" min="5" max="300" />
-        <button id="createBtn">Create Draft</button>
-      </div>
+      <p id="errorText" class="error-text"></p>
     </section>
 
-    <div id="links" class="links hidden">
-      <h2>Draft Links</h2>
-
-      <label>Blue Team Link</label>
-      <input id="blueLink" readonly />
-      <button onclick="copyLink('blueLink')">Copy Blue Link</button>
-
-      <label>Red Team Link</label>
-      <input id="redLink" readonly />
-      <button onclick="copyLink('redLink')">Copy Red Link</button>
-    </div>
-
     <details class="optional-box">
-      <summary>Optional: Random Team Generator</summary>
+      <summary>Old Draft Setup</summary>
 
       <p class="subtitle">
-        Add players manually or upload a .txt file using: Name, Rank
+        This is the old direct draft creator. You can still use it while the queue system is being built.
       </p>
 
-      <textarea id="playersInput" placeholder="Example:
-Cyrus, Bronze
-Dar, Challenger
-Nik, Challenger"></textarea>
-
-      <input id="playersFile" type="file" accept=".txt" />
-
-      <div class="generator-actions">
-        <div class="generator-card">
-          <div class="generator-option">
-            <input id="captainsByRank" type="checkbox" checked />
-            <label for="captainsByRank">Pick captains by rank</label>
-          </div>
-
-          <button id="pickCaptainsBtn" type="button">Pick Captains Only</button>
+      <section class="setup-section">
+        <div class="form-row">
+          <input id="blueName" placeholder="Blue team name" />
+          <input id="redName" placeholder="Red team name" />
         </div>
 
-        <div id="captainsOnlyBox" class="captains-only hidden">
-          <h3>Selected Captains</h3>
-          <p id="captainsOnlyText"></p>
+        <div class="form-row timer-row">
+          <span class="timer-label">Seconds per pick/ban</span>
+          <input id="timerSeconds" type="number" value="55" min="5" max="300" />
+          <button id="createBtn">Create Draft</button>
         </div>
+      </section>
 
-        <div class="generator-card">
-          <div class="generator-option">
-            <input id="balanceByRank" type="checkbox" checked />
-            <label for="balanceByRank">Balance generated teams by rank</label>
-          </div>
+      <div id="links" class="links hidden">
+        <h2>Draft Links</h2>
 
-          <button id="generateTeamsBtn" type="button">Generate Random Teams</button>
-        </div>
-      </div>
+        <label>Blue Team Link</label>
+        <input id="blueLink" readonly />
+        <button onclick="copyLink('blueLink')">Copy Blue Link</button>
 
-      <div id="generatedTeams" class="generated-teams hidden">
-        <div>
-          <h3>Blue Team</h3>
-          <ul id="generatedBlueTeam"></ul>
-        </div>
-
-        <div>
-          <h3>Red Team</h3>
-          <ul id="generatedRedTeam"></ul>
-        </div>
+        <label>Red Team Link</label>
+        <input id="redLink" readonly />
+        <button onclick="copyLink('redLink')">Copy Red Link</button>
       </div>
     </details>
   </main>
 
+  <script src="/socket.io/socket.io.js"></script>
   <script src="setup.js"></script>
 </body>
 </html>
